@@ -1232,7 +1232,7 @@ if(fft1_correlation_flag == 1)
   mem(8104,&fft1_slowcorr_tot,2*fft1_size*sizeof(double),0);
   mem(8105,&fft1_corr_spectrum_tot,screen_width*sizeof(short int),0);
   }
-if(fft1_correlation_flag > 1)
+if(fft1_correlation_flag >= 1)
   {
   mem(8109,&d_mix1_fqwin,(mix1.size/2+16)*sizeof(double),0);
   mem(8111,&d_mix1_table,mix1.size*sizeof(D_COSIN_TABLE)/2,0);
