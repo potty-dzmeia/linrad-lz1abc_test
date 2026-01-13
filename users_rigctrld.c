@@ -113,6 +113,8 @@ void panadapter_update_rig_freq(void)
   // Rig frequency has changed - update Linrad
   if ((rig_freq_current != rig_freq || rig_mode_current != rig_mode) && block_frequency_change == FALSE)
   {
+    printf("Rig Frequency change from %f to %f\n", rig_freq, rig_freq_current);
+    printf("----------------------------------\n");
 
     if (set_linrad_freq(rig_freq_current) == FALSE) // If false: hwfreq was outside the waterfall range and the center frequency was set instead.
     {
@@ -158,6 +160,8 @@ boolean set_linrad_freq(double freq_Hz)
 {
   double new_mix1_selfreq; // in Hz
 
+  printf("Setting Linrad hw frequency to %f Hz\n", freq_Hz);
+
   // The hardware frequency (i.e. the center frequency visualized in the Baseband Window) is calculated the following way (for more info see  frequency_readout()):
   // --------> hwfreq=0.001*(mix1_selfreq[0])+100*frequency_scale_offset;
   // In order to set the hwfreq to be the same as the rig freq, we need to set mix1_selfreq[0] taking into account the frequency_scale_offset
@@ -169,6 +173,15 @@ boolean set_linrad_freq(double freq_Hz)
   // If the hwfreq is outside the current visible waterfall range, set the center frequency to be the "freq_Hz"
   if (new_mix1_selfreq <= mix1_lowest_fq || new_mix1_selfreq >= mix1_highest_fq)
   {
+    if (new_mix1_selfreq <= mix1_lowest_fq)
+      // print the difference
+      printf("Requested frequency %f Hz is below the lowest waterfall frequency %f Hz. difference is %f Hz\n", new_mix1_selfreq, mix1_lowest_fq, mix1_lowest_fq - new_mix1_selfreq);
+    else
+      printf("Requested frequency %f Hz is above the highest waterfall frequency %f Hz. difference is %f Hz\n", new_mix1_selfreq, mix1_highest_fq, new_mix1_selfreq - mix1_highest_fq);
+
+    printf("mix1_lowest_fq is %f Hz; mix1_highest_fq is %f Hz; Difference is %f Hz\n", mix1_lowest_fq, mix1_highest_fq, mix1_highest_fq - mix1_lowest_fq);
+    printf("frequency_scale_offset is %f in [100*kHz]\n", frequency_scale_offset);
+
     // Set the center frequency inside the Frequency Control Box
     // Such that the requested hwfreq "freq_Hz" is at the center of the visible waterfall
     // We have to take into account cases where the visible water fall is set such that:
@@ -186,6 +199,8 @@ boolean set_linrad_freq(double freq_Hz)
     double new_center_freq_MHz = (freq_Hz + center_freq_difference_Hz) / 1000000.0;
 
     new_center_frequency_v2(new_center_freq_MHz);
+    printf("Set Linrad center frequency to %f MHz to have hw frequency at %f Hz\n", new_center_freq_MHz, freq_Hz);
+    // new_center_frequency_v2(freq_Hz / 1000000.0); // convert to MHz
 
     return FALSE;
   }

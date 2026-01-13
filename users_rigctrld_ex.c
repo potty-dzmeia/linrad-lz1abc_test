@@ -31,7 +31,7 @@ void panadapter_update_rig_freq(void);
 
 void init_users_extra(void)
 {
-  users_extra_update_interval = 0.3; // in seconds
+  users_extra_update_interval = 0.5; // Update every half second
 }
 
 void users_extra(void)

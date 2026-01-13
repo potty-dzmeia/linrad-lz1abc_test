@@ -1,2 +1,3 @@
 
-*.ox   # Linrad build artifacts commonly produced alongside .c/.s
+*.ox
+*.exe
