@@ -21,7 +21,7 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
 // INSTRUCTIONS
-//   See users_panadapter.c
+//   See users_rigctld.c
 
 double users_extra_time;
 double users_extra_fast_time;
