@@ -21,13 +21,13 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
 // INSTRUCTIONS
-//   See users_panadapter.c
+//   See users_rigctld.c
 
 double users_extra_time;
 double users_extra_fast_time;
 extern float users_extra_update_interval;
 
-void panadapter_update_rig_freq(void);
+extern void panadapter_update_rig_freq(void);
 
 void init_users_extra(void)
 {

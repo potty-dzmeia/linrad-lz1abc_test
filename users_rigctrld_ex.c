@@ -27,11 +27,11 @@ double users_extra_time;
 double users_extra_fast_time;
 extern float users_extra_update_interval;
 
-void panadapter_update_rig_freq(void);
+extern void panadapter_update_rig_freq(void);
 
 void init_users_extra(void)
 {
-  users_extra_update_interval = 0.5; // Update every half second
+  users_extra_update_interval = 0.3; // in seconds
 }
 
 void users_extra(void)
