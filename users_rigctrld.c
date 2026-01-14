@@ -252,29 +252,38 @@ void users_close_devices(void)
 
 void users_open_devices(void)
 {
-  if (enable_panadapter || rig != NULL)
+  // If already enabled, do nothing to avoid re-initialization
+  if (enable_panadapter && rig != NULL)
+  {
     printf("Panadapter support already enabled\n");
+    return;
+  }
 
-  rig_set_debug_level(RIG_DEBUG_ERR);
+  // Set debug level for Hamlib
+  // rig_set_debug_level(RIG_DEBUG_ERR);
+
+  // Initialize the rig model
   rig = rig_init(RIG_MODEL_NETRIGCTL);
   if (rig == NULL)
   {
-    printf("rig_init() failed\n");
+    printf("Hamlib: Failed to initialize rig\n");
     enable_panadapter = 0;
     return;
   }
 
+  // Open the rig connection
   if (rig_open(rig) != RIG_OK)
   {
-    printf("rig_open() failed\n");
+    printf("Hamlib: Failed to open rig connection\n");
     rig_cleanup(rig);
-    enable_panadapter = 0;
     rig = NULL;
+    enable_panadapter = 0;
     return;
   }
 
+  // Mark as enabled and confirm
   enable_panadapter = 1;
-  printf("Panadapter support enabled via rigctld\n");
+  printf("Rig control enabled via rigctld!\n");
 }
 
 void userdefined_u(void) {};
